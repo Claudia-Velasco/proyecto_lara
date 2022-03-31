@@ -16,7 +16,7 @@
     <header>
         <div class="row">
             <div class="col-md-2">
-                <img src="/tecnm_sintexto.svg" width="200px">
+                <img src="https://www.huatabampo.tecnm.mx/wp-content/uploads/2019/09/TecNM-logo-216x300.png" width="100px">
             </div>
             <div class="col-md-8 text-center">
                 <h1>Instituto Tecnológico del Valle de Oaxaca</h1>
