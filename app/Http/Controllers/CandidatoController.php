@@ -25,7 +25,7 @@ class CandidatoController extends Controller
      */
     public function create()
     {
-        //
+
         return view('candidato/create');
     }
 
@@ -64,9 +64,9 @@ class CandidatoController extends Controller
         ];
         if ($request->hasFile('foto')) $foto->move(public_path('image'), $fotocandidato);
         if ($request->hasFile('perfil')) $perfil->move(public_path('pdf'), $perfilcandidato);
-        //print_r($campos);
+
         $candidato = Candidato::create($campos);
-        echo $candidato->nombrecompleto . " se guardo correctamente ... ";
+        return redirect('candidato')->with('success', 'Candidato insertado correctamente');
     }
     /**
      * Display the specified resource.
@@ -87,7 +87,7 @@ class CandidatoController extends Controller
      */
     public function edit($id)
     {
-        //
+
         $candidato = Candidato::find($id);
         return view('candidato/edit',compact('candidato'));
     }

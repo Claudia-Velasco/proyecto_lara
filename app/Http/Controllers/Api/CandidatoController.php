@@ -6,6 +6,9 @@ use App\Http\Controllers\Api\GenericController as GenericController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Candidato;
+use App\Models\Votocandidato;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class CandidatoController extends GenericController
 {
@@ -86,7 +89,20 @@ class CandidatoController extends GenericController
      */
     public function edit($id)
     {
-        //
+        $id = intval($id);
+        $candidato =  Candidato::find($id);
+        return $this->send($candidato,$id);
+    }
+
+    private function send($data,$id){
+        if ($data){
+            $resp = $this->sendResponse($data,
+            "Operación satisfactoria...");
+        } else {
+            $resp = 
+            $this->sendError("No se encontró el candidato $id");
+        }
+        return ($resp);
     }
     /**
      * Update the specified resource in storage.
@@ -97,7 +113,45 @@ class CandidatoController extends GenericController
      */
     public function update(Request $request, $id)
     {
-        //
+        $id = intval($id);
+        $candidato =  Candidato::find($id);
+        $validacion = Validator::make($request->all(), [
+            'nombrecompleto' => 'unique:candidato|required|max:200',
+            'sexo' => 'required'
+        ]);
+        if ($validacion->fails())
+            return $this->sendError("Error de validacion", $validacion->errors());
+        $fotocandidato = "";
+        $perfilcandidato = "";
+        if ($request->hasFile('foto')) {
+            $foto = $request->file('foto');
+            $fotoCandidato = $foto->getClientOriginalName();
+        }
+        if ($request->hasFile('perfil')) {
+            $perfil = $request->file('perfil');
+            $perfilCandidato = $perfil->getClientOriginalName();
+        }
+
+        $currentValue = Candidato::find($id);
+        if (empty($fotoCandidato)) $fotoCandidato = $currentValue->foto;
+        if (empty($perfilCandidato)) $perfilCandidato = $currentValue->perfil;
+
+        $campos=[
+                'nombrecompleto' => $request->nombrecompleto,
+                'sexo'           => $request->sexo,
+                'foto'           => $fotoCandidato,
+                'perfil'         => $perfilCandidato,
+        ];
+        if ($request->hasFile('foto')) $foto->move(public_path('image'), $fotoCandidato);
+        if ($request->hasFile('perfil')) $perfil->move(public_path('pdf'), $perfilCandidato);
+
+        Candidato::whereId($id)->update($campos);
+        $resp = $this->sendResponse(
+            $candidato,
+            "Actualizado..."
+        );
+        return ($resp);
+        //$resp = $this->sendResponse($candidato,$id);
     }
     /**
      * Remove the specified resource from storage.
@@ -107,6 +161,18 @@ class CandidatoController extends GenericController
      */
     public function destroy($id)
     {
-        //
+        $candidato = Candidato::find($id);
+        DB::beginTransaction();
+        try {
+            if ($candidato){
+                Votocandidato::where('candidato_id','=',$id)->delete();
+            }
+            Candidato::whereId($id)->delete();
+            DB::commit();
+        } catch(\Exception  $ex){
+            DB::rollBack();
+        }
+
+        return $this->send($candidato,$id);
     }
 }
