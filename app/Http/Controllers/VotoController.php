@@ -135,12 +135,7 @@ class VotoController extends Controller
             $message= "No se localizó voto $id";
             return view('message',$message);
         }
-        /* 
-        $voto = Voto::find($id);
-        $casillas = Casilla::all();
-        $candidatos = Candidato::all();
-        $elecciones = Eleccion::all();
-        return view('voto/edit',compact('voto','casillas','candidatos','elecciones'));*/
+        
     }
 
     /**

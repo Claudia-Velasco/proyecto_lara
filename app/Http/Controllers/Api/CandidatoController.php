@@ -67,10 +67,10 @@ class CandidatoController extends GenericController
         $candidato = Candidato::create($campos);
         $resp = $this->sendResponse(
             $candidato,
-            "Guardado..."
+            "Guardado"
         );
         return ($resp);
-    } //--- End store
+    } 
     /**
      * Display the specified resource.
      *
@@ -97,7 +97,7 @@ class CandidatoController extends GenericController
     private function send($data,$id){
         if ($data){
             $resp = $this->sendResponse($data,
-            "Operación satisfactoria...");
+            "Operación satisfactoria");
         } else {
             $resp = 
             $this->sendError("No se encontró el candidato $id");
@@ -113,16 +113,16 @@ class CandidatoController extends GenericController
      */
     public function update(Request $request, $id)
     {
-        $id = intval($id);
-        $candidato =  Candidato::find($id);
+
         $validacion = Validator::make($request->all(), [
             'nombrecompleto' => 'unique:candidato|required|max:200',
             'sexo' => 'required'
         ]);
         if ($validacion->fails())
             return $this->sendError("Error de validacion", $validacion->errors());
-        $fotocandidato = "";
-        $perfilcandidato = "";
+
+        $fotoCandidato = "";
+        $perfilCandidato = "";
         if ($request->hasFile('foto')) {
             $foto = $request->file('foto');
             $fotoCandidato = $foto->getClientOriginalName();
@@ -136,22 +136,18 @@ class CandidatoController extends GenericController
         if (empty($fotoCandidato)) $fotoCandidato = $currentValue->foto;
         if (empty($perfilCandidato)) $perfilCandidato = $currentValue->perfil;
 
-        $campos=[
-                'nombrecompleto' => $request->nombrecompleto,
-                'sexo'           => $request->sexo,
-                'foto'           => $fotoCandidato,
-                'perfil'         => $perfilCandidato,
+        $campos = [
+            'nombrecompleto' => $request->nombrecompleto,
+            'sexo'           => $request->sexo,
+            'foto'           => $fotoCandidato,
+            'perfil'         => $perfilCandidato,
         ];
         if ($request->hasFile('foto')) $foto->move(public_path('image'), $fotoCandidato);
         if ($request->hasFile('perfil')) $perfil->move(public_path('pdf'), $perfilCandidato);
 
+        $candidato = Candidato::find($id);
         Candidato::whereId($id)->update($campos);
-        $resp = $this->sendResponse(
-            $candidato,
-            "Actualizado..."
-        );
-        return ($resp);
-        //$resp = $this->sendResponse($candidato,$id);
+        return $this->send($candidato, $id);
     }
     /**
      * Remove the specified resource from storage.
