@@ -14,7 +14,6 @@ class CasillaController extends Controller
      */
     public function index()
     {
-        //
         //echo "Put here logical for method index";
         $casillas = Casilla::all();
         return view('casilla/list', compact('casillas'));
@@ -27,7 +26,6 @@ class CasillaController extends Controller
      */
     public function create()
     {
-        // agregue esta linea
         return view ('casilla/create');
     }
 
@@ -39,8 +37,6 @@ class CasillaController extends Controller
      */
     public function store(Request $request)
     {
-        
-        //NO MUESTRA MENSAJE AIUDA
         //print_r($request->all());
         $request->validate([
             'ubicacion' => 'required|max:100',
@@ -59,7 +55,6 @@ class CasillaController extends Controller
      */
     public function show($id)
     {
-        //
         echo "Elemento seleccionado: $id";
     }
 
@@ -84,7 +79,6 @@ class CasillaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // 
         $request->validate([
         'ubicacion' => 'required|max:100',
         ]);
@@ -102,7 +96,6 @@ class CasillaController extends Controller
      */
     public function destroy($id)
     {
-        //
         Casilla::whereId($id)->delete();
         return redirect('casilla');
     }
