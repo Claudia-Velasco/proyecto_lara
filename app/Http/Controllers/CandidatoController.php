@@ -34,6 +34,8 @@ class CandidatoController extends Controller
         $request->validate([
             'nombrecompleto' => 'required|max:200',
             'sexo' => 'required',
+            'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'perfil' => 'required|mimes:pdf|max:2048'
         ]);
     }
     /**
