@@ -26,6 +26,11 @@ Route::resource('candidato', CandidatoController::class);
 Route::resource('eleccion', EleccionController::class);
 Route::resource('voto', VotoController::class);
 
-Route::get('/login', [LoginController::class,'index']);
+Route::get('/login', [LoginController::class,'index'])->name('login');
 Route::get('/login/facebook/', [LoginController::class,"redirectToFacebookProvider"]);
 Route::get('/login/facebook/callback', [LoginController::class,"handleProviderFacebookCallback"]);
+
+/** Bloquear el voto */
+Route::middleware(['auth'])->group(function(){
+    Route::resource('voto', VotoController::class);
+});

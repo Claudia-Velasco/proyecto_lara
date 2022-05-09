@@ -31,6 +31,7 @@ class LoginController extends Controller
     public function handleProviderFacebookCallback()
     {
         $auth_user = Socialite::driver('facebook')->user(); // Fetch authenticated user
-        dd($auth_user);
+       // dd($auth_user);
+       return redirect('casilla'); //Retornamos a la página principal 
     }
 }
