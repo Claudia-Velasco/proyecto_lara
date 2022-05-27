@@ -45,6 +45,11 @@
                 <input type="file" id="perfil" accept="application/pdf" class="form-control" name="perfil" onchange="loadFile()" />
             </div>
 
+
+            <div align="center">
+                    <embed id="vistaPrevia" type="application/pdf" width="900" >
+            </div>
+
             <button type="submit" class="btn btn-primary">Guardar</button>
         </form>
     </div>
@@ -93,21 +98,32 @@
 
 
 
-    /** 
-            let loadFile = () => {
-                //Obtener el file
-                let a = document.getElementById("perfil").files[0].size;
-                //Dividir para tener una relacion con el tamaño de php.ini -> 2M
-                a = (a / 1024)
-                console.log(a);
-                if (a > MAX_SIZE) {
-                    alert("Imagen muy grande, tamaño actual " + a + "MB");
-                    //setear a null la eleccion
-                    document.getElementById('perfil').value = null;
-                } else {
-                    alert("Archivo aceptable ");
+
+    let loadFile = () => {
+        //Obtener el file
+        let a = document.getElementById("perfil").files[0].size;
+        //Dividir para tener una relacion con el tamaño de php.ini -> 2M
+        a = (a / 1024)
+        console.log(a);
+        if (a > MAX_SIZE) {
+            alert("Imagen muy grande, tamaño actual " + a + "MB");
+            //setear a null la eleccion
+            document.getElementById('perfil').value = null;
+        } else {
+            alert("Archivo aceptable ");
+
+            //visulizamos el pdf
+            var archivo = document.getElementById("perfil").files[0];
+            var reader = new FileReader();
+            if (perfil) {
+                reader.readAsDataURL(archivo);
+                reader.onloadend = function() {
+                    document.getElementById("vistaPrevia").src = reader.result;
                 }
-            
             }
-            */
+
+           
+        }
+
+    }
 </script>

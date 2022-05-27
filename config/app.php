@@ -169,6 +169,7 @@ return [
          */
 	Reliese\Coders\CodersServiceProvider::class,
 	Laravel\Socialite\SocialiteServiceProvider::class,
+	Barryvdh\DomPDF\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -194,6 +195,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // ...
 	'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+	'PDF' => Barryvdh\DomPDF\Facade::class,
     ])->toArray(),
 
 ];

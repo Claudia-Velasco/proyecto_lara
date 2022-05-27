@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Casilla;
+use Barryvdh\DomPDF\Facade\Pdf as PDF; //--- Se agregó esta línea
 
 class CasillaController extends Controller
 {
@@ -26,7 +27,7 @@ class CasillaController extends Controller
      */
     public function create()
     {
-        return view ('casilla/create');
+        return view('casilla/create');
     }
 
     /**
@@ -44,7 +45,7 @@ class CasillaController extends Controller
         $data['ubicacion'] = $request->ubicacion;
         $casilla = Casilla::create($data);
         return redirect('casilla')
-        ->with('success', $casilla->ubicacion.' insertado correctamente');
+            ->with('success', $casilla->ubicacion . ' insertado correctamente');
     }
 
     /**
@@ -80,12 +81,12 @@ class CasillaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-        'ubicacion' => 'required|max:100',
+            'ubicacion' => 'required|max:100',
         ]);
-        $data['ubicacion']= $request->ubicacion;
+        $data['ubicacion'] = $request->ubicacion;
         Casilla::whereId($id)->update($data);
         return redirect('casilla')
-        ->with('success', 'actualizado');
+            ->with('success', 'actualizado');
     }
 
     /**
@@ -98,5 +99,32 @@ class CasillaController extends Controller
     {
         Casilla::whereId($id)->delete();
         return redirect('casilla');
+    }
+
+
+
+    //PDF
+
+
+    public function generatepdf()
+    {
+        // DESCARGAR EL ARCHIVO 
+        /*
+           $casillas = Casilla::all();
+          $pdf = PDF::loadView('casilla/list', ['casillas' => $casillas]);
+         return $pdf->download('archivoCasilla.pdf');
+         */
+
+        /**
+         *  $html = "<div style='text-align:center;'><h1>PDF generado desde etiquetas html</h1>
+         * <br><h3>&copy;lupita.dev</h3> </div>";
+         *      $pdf = PDF::loadHTML($html);
+         *     return $pdf->download('archivo.pdf');
+         */
+
+         
+        $casillas = Casilla::all();
+        return PDF::loadView('casilla/list', ['casillas'=>$casillas])
+        ->stream('archivo.pdf');
     }
 }
