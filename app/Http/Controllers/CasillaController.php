@@ -121,10 +121,11 @@ class CasillaController extends Controller
          *      $pdf = PDF::loadHTML($html);
          *     return $pdf->download('archivo.pdf');
          */
-
          
-        $casillas = Casilla::all();
-        return PDF::loadView('casilla/list', ['casillas'=>$casillas])
-        ->stream('archivo.pdf');
+        
+        $casillas=Casilla::all();
+        $pdf=PDF::loadView('casilla/list',['casillas'=>$casillas]);
+        return $pdf->stream('archivo.pdf');
+    
     }
 }

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite as Socialite;
 use AuthenticatesUsers;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -33,5 +35,15 @@ class LoginController extends Controller
         $auth_user = Socialite::driver('facebook')->user(); // Fetch authenticated user
        // dd($auth_user);
        return redirect('casilla'); //Retornamos a la página principal 
+    }
+
+
+    public function logout(Request $request, Redirector $redirector)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+        return $redirector->to('/login');
     }
 }

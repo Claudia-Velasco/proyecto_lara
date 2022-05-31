@@ -7,7 +7,7 @@ use App\Http\Controllers\EleccionController;
 use App\Http\Controllers\VotoController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PDFController;
-
+use App\Http\Controllers\BrowserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +29,8 @@ Route::get('casilla/pdf', [CasillaController::class,'generatepdf']);
 Route::get('preview',[PDFController::class,'preview']);
 Route::get('download',[PDFController::class,'download'])->name('download');
 
+//Grafica con Highchart
+Route::get('graficos',[BrowserController::class,'index']);
 
 
 Route::resource('casilla', CasillaController::class);
@@ -41,8 +43,10 @@ Route::get('/login', [LoginController::class,'index'])->name('login');
 Route::get('/login/facebook/', [LoginController::class,"redirectToFacebookProvider"]);
 Route::get('/login/facebook/callback', [LoginController::class,"handleProviderFacebookCallback"]);
 
+Route::get('/logout', [LoginController::class,'logout'])->name('logout');
 
-/** Bloquear el voto */
+/* Bloquear el acceso al voto 
 Route::middleware(['auth'])->group(function(){
     Route::resource('voto', VotoController::class);
 });
+*/

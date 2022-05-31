@@ -36,6 +36,14 @@
                 </td>
             </tr>
             @endforeach
+
+            <div class="card-body">
+                    <a class="btn btn-primary" href="/casilla/pdf">
+                        DESCARGAR PDF
+                    </a>
+                </div>
+
+            
         </tbody>
     </table>
     <div>

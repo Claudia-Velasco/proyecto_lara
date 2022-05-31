@@ -1,3 +1,15 @@
+<?php 
+use Illuminate\Support\Facades\DB;
+use App\Models\Voto;
+
+function index()
+{
+    $votos = Voto::all();
+    return view('voto/list', compact('votos'));
+}
+?>
+
+
 <!DOCTYPE html>
 <html>
 
@@ -18,13 +30,14 @@
 </head>
 
 <body>
+@extends('plantilla')
+@section('content')
 
-    <h2 class="text-center">Generate PDF with Chart in Laravel</h2>
+    <h2 class="text-center">Generar Gráfica</h2>
 
     <div id="chartDiv" class="pie-chart"></div>
     <div class="text-center">
-        <a href="{{ route('download') }}">Download PDF File</a>
-        <h2>ItSolutionStuff.com.com</h2>
+        <a href="{{ route('download') }}">Descargar archivo pdf</a>
     </div>
 
     <script type="text/javascript">
@@ -48,7 +61,7 @@
             ]);
 
             var options = {
-                title: 'Popularity of Types of Framework',
+                title: 'Votos',
                 sliceVisibilityThreshold: .2
             };
             var chart = new google.visualization.PieChart(document.getElementById('chartDiv'));
@@ -56,5 +69,5 @@
         }
     </script>
 </body>
-
+@endsection
 </html>
