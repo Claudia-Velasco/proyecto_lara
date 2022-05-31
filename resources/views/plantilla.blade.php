@@ -84,7 +84,6 @@
                     <a class="nav-link" href="/logout">Salir</a>
                 </li>
 
-
             </ul>
 
         </div>

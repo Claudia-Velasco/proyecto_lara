@@ -20,10 +20,10 @@ class BrowserController extends Controller
     {
         $votos = Votocandidato::all();
         $puntos = [];
-        foreach($votos as $voto){
-            $puntos[]=['name' => $voto['candidato_id'],'y'=>floatval([$voto['votos']])];
+        foreach ($votos as $voto) {
+            $puntos[] = ['name' => $voto['candidato_id'], 'y' => floatval([$voto['votos']])];
         }
-        return view("graficos", ["data"=>json_encode($puntos)]);
+        return view("graficos", ["data" => json_encode($puntos)]);
     }
 
     /**
